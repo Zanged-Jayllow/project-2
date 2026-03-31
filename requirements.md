@@ -1,4 +1,4 @@
-# Project Requirements — MSc Micro‑SaaS Group Project
+# Project Requirements — MSc Micro‑SaaS Project
 
 This document describes the expectations, required tasks, suggested micro‑SaaS ideas, deliverables, timeline, and grading rubric for Project 2. 
 
