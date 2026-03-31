@@ -1,6 +1,6 @@
 # Project Requirements — MSc Micro‑SaaS Project
 
-This document describes the expectations, required tasks, suggested micro‑SaaS ideas, deliverables, timeline, and grading rubric for Project 2. 
+This document describes the expectations, required tasks, suggested micro‑SaaS ideas, deliverables, and grading rubric for Project 2. 
 
 The goal is to build a small production‑style micro‑SaaS application that demonstrates the React topics covered in the course: component design, state management, authentication, routing, server communication, and integration with a Backend-as-a-Service (BaaS).
 
