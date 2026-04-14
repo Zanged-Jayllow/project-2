@@ -37,4 +37,22 @@ AI usage that is irrelevant to the project (for example, for another class or fo
 - **Prompt:** "given the requirements - (1) suggest useful libraries and pipelines (2) suggest potential project ideas, preferably about astronomy and physics"
 - **Provided code:** No
 
+### 2026-04-14T21:05:10Z — student: Zanged-Jayllow
+
+- **Action:** Analzyed the feasibility of project idea.
+- **Prompt:** "I am planning to build a project using Next.JS (the prof approved using it instead of the React or TanStack Routing as long as the design philosophy is still satisfied), something like a "Personal Astronomy Observation Log": A sky-watcher's journal where users log celestial observations (object name, date, location, telescope used, notes, sketch upload). Features a dashboard with charts of observation frequency, favourite object types, and a calendar heatmap. Integrates with the NASA/SIMBAD API to auto-fill object metadata when you type a target name (e.g. "M31"). Shareable public profile pages show your observation history. Does it fit the requirements, and what libraries or platforms shall i consider?"
+- **Provided code:** No
+
+### 2026-04-14T21:12:44Z — student: Zanged-Jayllow
+
+- **Action:** Analzyed the feasibility of project requirements.
+- **Prompt:** "I am planning to build a project using Next.JS, something like a "Personal Astronomy Observation Log": A sky-watcher's journal where users log celestial observations (object name, date, location, telescope used, notes, sketch upload). Features a dashboard with charts of observation frequency, favourite object types, and a calendar heatmap. Integrates with the NASA/SIMBAD API to auto-fill object metadata when you type a target name (e.g. "M31"). Shareable public profile pages show your observation history. I have identified that ill likely need the following (besides the initial nextjs setup): supabase, tanstack, Zustand, Recharts/Nivo, NASA Sightings API + Simbad Tap API, React Hook Form + Zod, Tailwind CSS + shadcn/ui. can i setup these with little issues?"
+- **Provided code:** No
+
+### 2026-04-14T21:21:20Z — student: Zanged-Jayllow
+
+- **Action:** Suggested a name for the project.
+- **Prompt:** "I am planning to build a project using Next.JS, something like a "Personal Astronomy Observation Log": A sky-watcher's journal where users log celestial observations (object name, date, location, telescope used, notes, sketch upload). Features a dashboard with charts of observation frequency, favourite object types, and a calendar heatmap. Integrates with the NASA/SIMBAD API to auto-fill object metadata when you type a target name (e.g. "M31"). Shareable public profile pages show your observation history. Suggest a name for it"
+- **Provided code:** No
+
 ---
