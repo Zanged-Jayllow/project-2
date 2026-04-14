@@ -31,4 +31,10 @@ AI usage that is irrelevant to the project (for example, for another class or fo
 - **Prompt:** "Provide sample markdown files for a debugging log and a ai response log. For the ai response log, be explicit that the project guideline forbids direct code generation and that the response log would be intended for keeping text responses that were deemed worthy to write down."
 - **Provided code:** No
 
+### 2026-04-14T19:52:21Z — student: Zanged-Jayllow
+
+- **Action:** Provided library and project idea suggestions.
+- **Prompt:** "given the requirements - (1) suggest useful libraries and pipelines (2) suggest potential project ideas, preferably about astronomy and physics"
+- **Provided code:** No
+
 ---
