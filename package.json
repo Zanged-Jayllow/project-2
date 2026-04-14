@@ -1,0 +1,11 @@
+{
+  "name": "my-repo",
+  "scripts": {
+    "dev": "cd perihelion && npm run dev",
+    "build": "cd perihelion && npm run build",
+    "start": "cd perihelion && npm run start",
+    "lint": "cd perihelion && npm run lint",
+    "install": "cd perihelion && npm install",
+    "audit": "cd perihelion && npm audit"
+  }
+}
