@@ -1,0 +1,268 @@
+"use client";
+
+import { observationFormSchema, type ObservationFormValues } from "@/lib/observations/schema";
+import { createObservation } from "@/app/protected/log/new/actions";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+
+const inputStyle: React.CSSProperties = {
+  background: "rgba(255,255,255,0.04)",
+  border: "1px solid rgba(140,180,255,0.2)",
+  borderRadius: "2px",
+  padding: "0.5rem 0.75rem",
+  color: "#dce8ff",
+  fontSize: "0.95rem",
+  fontFamily: "inherit",
+  width: "100%",
+};
+
+const labelStyle: React.CSSProperties = {
+  fontSize: "0.72rem",
+  letterSpacing: "0.16em",
+  color: "#6a88bb",
+};
+
+type SimbadJson = { canonicalName: string; objectType: string; ra?: number; dec?: number };
+type NasaJson =
+  | { applicable: true; designation: string; name?: string; kind?: string; orbitClass?: string; note?: string }
+  | { applicable: false; reason: string };
+
+export function ObservationForm() {
+  const router = useRouter();
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [lookupLoading, setLookupLoading] = useState(false);
+  const [simbadHint, setSimbadHint] = useState<SimbadJson | null>(null);
+  const [nasaHint, setNasaHint] = useState<NasaJson | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<ObservationFormValues>({
+    resolver: zodResolver(observationFormSchema),
+    defaultValues: {
+      object_name: "",
+      object_type: "",
+      observed_at: new Date().toISOString().slice(0, 10),
+      location: "",
+      telescope: "",
+      notes: "",
+    },
+  });
+
+  const target = watch("object_name");
+
+  const runLookup = useCallback(async (q: string) => {
+    const trimmed = q.trim();
+    if (trimmed.length < 2) {
+      setSimbadHint(null);
+      setNasaHint(null);
+      return;
+    }
+    setLookupLoading(true);
+    setFormError(null);
+    try {
+      const [sRes, nRes] = await Promise.all([
+        fetch(`/api/simbad?q=${encodeURIComponent(trimmed)}`),
+        fetch(`/api/nasa-sightings?q=${encodeURIComponent(trimmed)}`),
+      ]);
+      if (sRes.ok) {
+        setSimbadHint((await sRes.json()) as SimbadJson);
+      } else {
+        setSimbadHint(null);
+      }
+      if (nRes.ok) {
+        setNasaHint((await nRes.json()) as NasaJson);
+      } else {
+        setNasaHint(null);
+      }
+    } catch {
+      setSimbadHint(null);
+      setNasaHint(null);
+    } finally {
+      setLookupLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const t = window.setTimeout(() => {
+      void runLookup(target ?? "");
+    }, 450);
+    return () => window.clearTimeout(t);
+  }, [target, runLookup]);
+
+  const applySimbad = () => {
+    if (!simbadHint) return;
+    setValue("object_name", simbadHint.canonicalName);
+    setValue("object_type", simbadHint.objectType);
+  };
+
+  const onSubmit = async (data: ObservationFormValues) => {
+    setSubmitting(true);
+    setFormError(null);
+    const fd = new FormData();
+    fd.set("object_name", data.object_name);
+    fd.set("object_type", data.object_type ?? "");
+    fd.set("observed_at", data.observed_at);
+    fd.set("location", data.location ?? "");
+    fd.set("telescope", data.telescope ?? "");
+    fd.set("notes", data.notes ?? "");
+    const file = fileRef.current?.files?.[0];
+    if (file && file.size > 0) {
+      fd.set("sketch", file);
+    }
+    const result = await createObservation(fd);
+    setSubmitting(false);
+    if (!result.ok) {
+      setFormError(result.error);
+      return;
+    }
+    router.push("/protected/dashboard");
+    router.refresh();
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
+        <div className="flex flex-col gap-1" style={{ gridColumn: "1 / -1" }}>
+          <label style={labelStyle}>TARGET OBJECT</label>
+          <div className="flex items-center gap-2 flex-wrap">
+            <input {...register("object_name")} placeholder='e.g. "M31" or "Ceres"' style={inputStyle} />
+            <span
+              style={{
+                fontSize: "0.65rem",
+                letterSpacing: "0.1em",
+                color: "#4a8aff",
+                border: "1px solid rgba(74,138,255,0.3)",
+                padding: "0.2rem 0.5rem",
+                borderRadius: "2px",
+                whiteSpace: "nowrap",
+              }}
+            >
+              NASA · SIMBAD
+            </span>
+            {lookupLoading && (
+              <span style={{ fontSize: "0.75rem", color: "#6a88bb" }}>Looking up…</span>
+            )}
+          </div>
+          {errors.object_name && (
+            <p style={{ fontSize: "0.78rem", color: "#f87171", margin: 0 }}>{errors.object_name.message}</p>
+          )}
+
+          {(simbadHint || (nasaHint && "applicable" in nasaHint && nasaHint.applicable)) && (
+            <div
+              style={{
+                marginTop: "0.5rem",
+                padding: "0.75rem 1rem",
+                border: "1px solid rgba(140,180,255,0.15)",
+                borderRadius: "4px",
+                background: "rgba(10,15,35,0.8)",
+                fontSize: "0.82rem",
+                color: "#9aaccc",
+              }}
+            >
+              {simbadHint && (
+                <p style={{ margin: "0 0 0.35rem" }}>
+                  <strong style={{ color: "#dce8ff" }}>SIMBAD:</strong> {simbadHint.canonicalName} — {simbadHint.objectType}
+                </p>
+              )}
+              {nasaHint && "applicable" in nasaHint && nasaHint.applicable && (
+                <p style={{ margin: simbadHint ? "0 0 0.35rem" : 0 }}>
+                  <strong style={{ color: "#dce8ff" }}>NASA (SBDB):</strong>{" "}
+                  {[nasaHint.designation, nasaHint.name].filter(Boolean).join(" · ")}
+                  {nasaHint.orbitClass ? ` — ${nasaHint.orbitClass}` : ""}
+                </p>
+              )}
+              {simbadHint && (
+                <button
+                  type="button"
+                  onClick={applySimbad}
+                  style={{
+                    marginTop: "0.5rem",
+                    padding: "0.35rem 0.75rem",
+                    fontSize: "0.75rem",
+                    letterSpacing: "0.06em",
+                    background: "rgba(74,122,204,0.25)",
+                    border: "1px solid rgba(74,122,204,0.4)",
+                    borderRadius: "2px",
+                    color: "#8ab4ff",
+                    cursor: "pointer",
+                  }}
+                >
+                  Apply SIMBAD name and type
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label style={labelStyle}>OBJECT TYPE</label>
+          <input {...register("object_type")} placeholder="e.g. Galaxy" style={inputStyle} />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label style={labelStyle}>DATE</label>
+          <input type="date" {...register("observed_at")} style={{ ...inputStyle, color: "#dce8ff" }} />
+          {errors.observed_at && (
+            <p style={{ fontSize: "0.78rem", color: "#f87171", margin: 0 }}>{errors.observed_at.message}</p>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label style={labelStyle}>LOCATION</label>
+          <input {...register("location")} placeholder="Observing site" style={inputStyle} />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label style={labelStyle}>TELESCOPE</label>
+          <input {...register("telescope")} placeholder='e.g. "10″ Dobsonian"' style={inputStyle} />
+        </div>
+
+        <div className="flex flex-col gap-1" style={{ gridColumn: "1 / -1" }}>
+          <label style={labelStyle}>NOTES</label>
+          <textarea
+            {...register("notes")}
+            rows={4}
+            placeholder="Seeing conditions, magnification, what you noticed…"
+            style={{ ...inputStyle, resize: "vertical", minHeight: "88px" }}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1" style={{ gridColumn: "1 / -1" }}>
+          <label style={labelStyle}>SKETCH (optional)</label>
+          <input ref={fileRef} type="file" accept="image/*" style={{ fontSize: "0.85rem", color: "#9aaccc" }} />
+        </div>
+      </div>
+
+      {formError && <p style={{ fontSize: "0.85rem", color: "#f87171", margin: 0 }}>{formError}</p>}
+
+      <button
+        type="submit"
+        disabled={submitting}
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "0.6rem 1.4rem",
+          background: submitting ? "rgba(42,76,173,0.5)" : "linear-gradient(135deg, #2a4cad 0%, #1a2e6e 100%)",
+          border: "1px solid rgba(140,180,255,0.3)",
+          borderRadius: "2px",
+          color: "#dce8ff",
+          fontSize: "0.88rem",
+          letterSpacing: "0.06em",
+          cursor: submitting ? "not-allowed" : "pointer",
+          width: "fit-content",
+        }}
+      >
+        {submitting ? "Saving…" : "Save observation"}
+      </button>
+    </form>
+  );
+}
