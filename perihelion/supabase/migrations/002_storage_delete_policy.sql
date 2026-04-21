@@ -1,4 +1,4 @@
--- Allow authenticated users to delete their own sketch objects (same folder rule as insert)
+-- Allow authenticated users to delete their own sketch objects (same folder rule as insert) --
 
 create policy "Users delete own sketches"
   on storage.objects for delete

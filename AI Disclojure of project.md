@@ -1,6 +1,6 @@
 # AI Disclosure of Project
 
-All AI assistant interactions related to this project are logged here per repository guidelines.
+Most AI assistant interactions (that I can recall) related to this project are logged here per repository guidelines.
 
 ## Note 1
 

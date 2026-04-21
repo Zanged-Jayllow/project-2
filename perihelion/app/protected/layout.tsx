@@ -87,9 +87,19 @@ export default async function ProtectedLayout({
               target="_blank"
               className="font-bold hover:underline"
               rel="noreferrer"
-              style={{ color: "#6a88bb" }}
+              style={{ color: "var(--app-footer-link)" }}
             >
               Supabase
+            </a>
+            {" "}and{" "}
+            <a
+              href="https://nextjs.org/"
+              target="_blank"
+              className="font-bold hover:underline"
+              rel="noreferrer"
+              style={{ color: "var(--app-footer-link)" }}
+            >
+              Next.JS
             </a>
           </p>
           <ThemeSwitcher />

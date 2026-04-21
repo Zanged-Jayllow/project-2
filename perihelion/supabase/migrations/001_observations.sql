@@ -1,4 +1,4 @@
--- Observations log (run in Supabase SQL editor or via CLI)
+-- Observations log (run in Supabase SQL editor or via CLI) --
 
 create table if not exists public.observations (
   id uuid primary key default gen_random_uuid(),
