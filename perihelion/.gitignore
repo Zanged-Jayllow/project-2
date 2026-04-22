@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 # next-env.d.ts
+
+# Agent Workflow Artifacts
+# Because even for a code review or a debugging session it creates those folders
+.claude*

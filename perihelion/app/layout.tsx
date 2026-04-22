@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { Providers } from "@/lib/providers";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -33,10 +34,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="cosmic-shell">
-            <div aria-hidden className="cosmic-stars" />
-            <div className="cosmic-content">{children}</div>
-          </div>
+          <Providers>
+            <div className="cosmic-shell">
+              <div aria-hidden className="cosmic-stars" />
+              <div className="cosmic-content">{children}</div>
+            </div>
+          </Providers>
         </ThemeProvider>
       </body>
     </html>
