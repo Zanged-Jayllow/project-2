@@ -3,6 +3,7 @@ import { AuthButton } from "@/components/auth-button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { hasEnvVars } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/server";
+import { getProfile } from "@/lib/profile";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -12,6 +13,7 @@ export default async function ProtectedLayout({
 }: {
   children: React.ReactNode;
 }) {
+  let isAdmin = false;
   if (hasEnvVars) {
     const supabase = await createClient();
     const {
@@ -20,6 +22,8 @@ export default async function ProtectedLayout({
     if (!user) {
       redirect("/auth/login");
     }
+    const profile = await getProfile();
+    isAdmin = profile?.role === 'admin';
   }
 
   return (
@@ -61,6 +65,14 @@ export default async function ProtectedLayout({
                   >
                     Log
                   </Link>
+                  {isAdmin && (
+                    <Link
+                      href="/admin"
+                      style={{ color: "#8ab4ff", textDecoration: "none", fontSize: "0.82rem", letterSpacing: "0.06em" }}
+                    >
+                      Admin
+                    </Link>
+                  )}
                 </>
               )}
             </div>

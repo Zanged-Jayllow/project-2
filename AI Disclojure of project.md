@@ -135,6 +135,12 @@ I used online tools for converting local time to ISO 8601 time code. I later not
 
 - **Action:** Debugging broken API calls.
 - **Prompt:** (Agent Mode) "it still appears to be not doing anything in the UI layer. for example typing in "mars" does nothing (besides the SIMBAD giving an error because SIMBAD does not cover solar system objects)"
-- **Provided code:** Yes. The provided code a code snippet that explains why the previous approach did not work and potential workarounds, such as a hard coded lookup table that returns without any API call. 
+- **Provided code:** Yes. The provided code a code snippet that explains why the previous approach did not work and potential workarounds, such as a hard coded lookup table that returns without any API call.
+
+### 2026-04-23T21:30:00Z — student: Zanged-Jayllow
+
+- **Action:** Analyze what still needs to be done, estimate the difficulty of implementing role based features, provided relevant code snippets.
+- **Prompt:** (Agent Mode) "read requirement.md, besides the documentation work, is the project meeting the criteria? For role-based features, which one is more technically feasible and do i need to significantly alter the SQL structure of my existing tables?"
+- **Provided code:** Yes. The provided code a code snippet that (1) highlights existing code that needed to be changed (2) SQL commands that i need to run on Supabase (3) Examples of code that enables role-based access. 
 
 ---
