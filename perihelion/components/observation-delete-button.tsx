@@ -1,6 +1,8 @@
 "use client";
 
 import { deleteObservation } from "@/app/protected/log/actions";
+import { OBSERVATIONS_QUERY_KEY } from "@/lib/hooks/use-observations";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
@@ -10,6 +12,7 @@ type Props = {
 
 export function ObservationDeleteButton({ observationId }: Props) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
@@ -24,6 +27,7 @@ export function ObservationDeleteButton({ observationId }: Props) {
         setError(result.error);
         return;
       }
+      queryClient.invalidateQueries({ queryKey: OBSERVATIONS_QUERY_KEY });
       router.refresh();
     });
   };

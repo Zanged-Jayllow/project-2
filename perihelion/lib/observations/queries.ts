@@ -1,6 +1,6 @@
 import type { ObservationRow } from "@/lib/types/observation";
 
-export type MonthlyCount = { monthKey: string; label: string; count: number };
+export type MonthlyCount = { monthKey: string; label: string; fullLabel: string; count: number };
 
 export type TypeCount = { name: string; count: number; fill: string };
 
@@ -9,7 +9,11 @@ export type DayCount = { day: string; value: number };
 const TYPE_COLORS = ["#2a4cad", "#4a7acc", "#8ab4ff", "rgba(42,76,173,0.15)"];
 
 function monthLabel(d: Date): string {
-  return ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"][d.getMonth()] ?? "?";
+  return ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"][d.getMonth()] ?? "?";
+}
+
+function monthFullLabel(d: Date): string {
+  return ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][d.getMonth()] ?? "?";
 }
 
 /** Last 12 calendar months ending this month, oldest first */
@@ -19,7 +23,7 @@ export function buildMonthlySeries(rows: ObservationRow[]): MonthlyCount[] {
   for (let i = 11; i >= 0; i--) {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
     const monthKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-    series.push({ monthKey, label: monthLabel(d), count: 0 });
+    series.push({ monthKey, label: monthLabel(d), fullLabel: monthFullLabel(d), count: 0 });
   }
   const index = new Map(series.map((m, idx) => [m.monthKey, idx]));
   for (const r of rows) {

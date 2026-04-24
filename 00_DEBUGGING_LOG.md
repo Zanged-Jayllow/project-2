@@ -55,7 +55,7 @@ Note 2: I used online tools for converting local time to ISO 8601 time code. I l
 - **Root Cause:** The SIMBAD database does not contain solar system objects, while the original NASA API only works for a finite range of named asteroids and comets.
 - **Fix Applied:** Added more UI indicators to whether the API successfully fetched an object or not, added an additional NASA API + hard-coded lookup tables as fallback options.
 
-### 2026-04-23T23:01:55Z — Bug: Broken SIMBAD/NASA API
+### 2026-04-23T23:01:55Z — Bug: Browser Side Dynamic Chart Warnings
 
 - **Status:** `Active`
 - **Symptom:** Upon loading the dashboard, 4 browser warnings appear in the console.

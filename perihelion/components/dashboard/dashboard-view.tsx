@@ -17,6 +17,26 @@ import type { MonthlyCount, TypeCount } from "@/lib/observations/queries";
 
 const HEATMAP_COLORS = ["heatmap-0", "heatmap-1", "heatmap-2", "heatmap-3", "heatmap-4"];
 
+function MonthlyTooltip({ active, payload }: { active?: boolean; payload?: { value: number; payload: MonthlyCount }[] }) {
+  if (!active || !payload?.length) return null;
+  const { fullLabel } = payload[0]!.payload;
+  const count = payload[0]!.value;
+  return (
+    <div
+      style={{
+        background: "var(--app-card-bg)",
+        border: "1px solid var(--app-card-border)",
+        borderRadius: 4,
+        padding: "6px 10px",
+        fontSize: 12,
+      }}
+    >
+      <p style={{ margin: 0, color: "var(--app-heading)" }}>{fullLabel}</p>
+      <p style={{ margin: 0, color: "var(--app-heading)" }}>{count}</p>
+    </div>
+  );
+}
+
 function DashCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div
@@ -25,6 +45,8 @@ function DashCard({ title, children }: { title: string; children: React.ReactNod
         borderRadius: "4px",
         padding: "1.25rem",
         background: "var(--app-card-bg)",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <p style={{ margin: "0 0 0.5rem", fontSize: "0.72rem", letterSpacing: "0.16em", color: "var(--app-label)" }}>
@@ -160,7 +182,7 @@ export function DashboardView({
         </DashCard>
 
         <DashCard title="Sessions per month">
-          <div style={{ width: "100%", height: 220 }}>
+          <div style={{ width: "100%", flex: 1, minHeight: 220 }}>
             {mounted && <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <BarChart data={monthly} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
                 <XAxis
@@ -170,15 +192,7 @@ export function DashboardView({
                   tickLine={false}
                 />
                 <YAxis hide domain={[0, "auto"]} />
-                <Tooltip
-                  contentStyle={{
-                    background: "var(--app-card-bg)",
-                    border: "1px solid var(--app-card-border)",
-                    borderRadius: 4,
-                    color: "var(--app-heading)",
-                    fontSize: 12,
-                  }}
-                />
+                <Tooltip content={<MonthlyTooltip />} />
                 <Bar dataKey="count" radius={[2, 2, 0, 0]}>
                   {monthly.map((_, i) => (
                     <Cell

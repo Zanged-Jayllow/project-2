@@ -60,7 +60,7 @@ export default async function ObserverPage({
                 fontWeight: 400,
               }}
             >
-              Public profile coming soon
+              Public profile TBD
             </p>
             <p style={{ margin: 0, color: "var(--app-body)", fontSize: "0.9rem", lineHeight: 1.6 }}>
               Observation logs, stats, and sketches for{" "}

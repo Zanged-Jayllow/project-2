@@ -159,4 +159,4 @@ External API calls (`/api/simbad`, `/api/nasa-sightings`) are Next.js Route Hand
 
 I consulted AI tools — Claude (Claude.ai and Claude Code) and Cursor (Composer 1.5 and Composer 2) — for idea suggestions, tech stack analysis, online resource search, debugging, and code snippet generation. The authentication implementation is largely based on the official Supabase Next.js starter template.
 
-For detailed AI usage disclosures, see [The Disclosure Log](./AI%20Disclojure%20of%20project.md) and the [Additional Usage Log](./00_AI_RESPONSE_LOG.md).
+For detailed AI usage disclosures, see [The Disclosure Log](./AI%20Disclojure%20of%20project.md), the [Additional Usage Log](./00_AI_RESPONSE_LOG.md), and the [Debugging Log](./00_DEBUGGING_LOG.md)

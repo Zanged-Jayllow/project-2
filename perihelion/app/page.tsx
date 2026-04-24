@@ -374,7 +374,7 @@ export default function Home() {
                 ))}
               </div>
               <div className="flex justify-between" style={{ paddingBottom: "0.25rem" }}>
-                {["M", "A", "M", "J", "J", "A", "S", "O", "N", "D", "J", "F"].map((m, i) => (
+                {["MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC", "JAN", "FEB"].map((m, i) => (
                   <span key={i} style={{ fontSize: "0.6rem", color: "var(--app-dim)", flex: 1, textAlign: "center" }}>{m}</span>
                 ))}
               </div>

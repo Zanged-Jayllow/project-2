@@ -2,7 +2,9 @@
 
 import { observationFormSchema, type ObservationFormValues } from "@/lib/observations/schema";
 import { createObservation, updateObservation } from "@/app/protected/log/actions";
+import { OBSERVATIONS_QUERY_KEY } from "@/lib/hooks/use-observations";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -48,6 +50,7 @@ export function ObservationForm({
   existingSketchUrl = null,
 }: ObservationFormProps) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const fileRef = useRef<HTMLInputElement>(null);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
@@ -155,6 +158,7 @@ export function ObservationForm({
       setFormError(result.error);
       return;
     }
+    queryClient.invalidateQueries({ queryKey: OBSERVATIONS_QUERY_KEY });
     router.push("/protected/dashboard");
     router.refresh();
   };

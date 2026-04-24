@@ -14,12 +14,12 @@ export type NasaSightingsResponse =
     }
   | { applicable: false; reason: string };
 
-// Static table for major solar-system bodies not covered by SBDB (which only handles small bodies).
-// Planets, dwarf planets, the Sun, and notable moons are finite and well-known.
+// Static table for major solar-system bodies not covered by SBDB (which only handles small bodies). //
+// Planets, dwarf planets, the Sun, and notable moons are finite and well-known. //
 const MAJOR_BODIES: Record<string, { name: string; designation: string; kind: string }> = {
-  // Sun
+  // Sun //
   sun: { name: "Sun", designation: "10", kind: "Star" },
-  // Major planets
+  // Major planets //
   mercury: { name: "Mercury", designation: "199", kind: "Planet" },
   venus: { name: "Venus", designation: "299", kind: "Planet" },
   earth: { name: "Earth", designation: "399", kind: "Planet" },
@@ -29,23 +29,23 @@ const MAJOR_BODIES: Record<string, { name: string; designation: string; kind: st
   saturn: { name: "Saturn", designation: "699", kind: "Planet" },
   uranus: { name: "Uranus", designation: "799", kind: "Planet" },
   neptune: { name: "Neptune", designation: "899", kind: "Planet" },
-  // Dwarf planets (Ceres is also in SBDB and handled there first)
+  // Dwarf planets (Ceres is also in SBDB and handled there first) //
   pluto: { name: "Pluto", designation: "999", kind: "Dwarf Planet" },
   eris: { name: "Eris", designation: "136199", kind: "Dwarf Planet" },
   makemake: { name: "Makemake", designation: "136472", kind: "Dwarf Planet" },
   haumea: { name: "Haumea", designation: "136108", kind: "Dwarf Planet" },
-  // Earth's Moon
+  // Earth's Moon //
   moon: { name: "Moon", designation: "301", kind: "Natural Satellite" },
   luna: { name: "Moon", designation: "301", kind: "Natural Satellite" },
-  // Mars moons
+  // Mars moons //
   phobos: { name: "Phobos", designation: "401", kind: "Natural Satellite" },
   deimos: { name: "Deimos", designation: "402", kind: "Natural Satellite" },
-  // Galilean moons
+  // Galilean moons //
   io: { name: "Io", designation: "501", kind: "Natural Satellite" },
   europa: { name: "Europa", designation: "502", kind: "Natural Satellite" },
   ganymede: { name: "Ganymede", designation: "503", kind: "Natural Satellite" },
   callisto: { name: "Callisto", designation: "504", kind: "Natural Satellite" },
-  // Saturn moons
+  // Saturn moons //
   mimas: { name: "Mimas", designation: "601", kind: "Natural Satellite" },
   enceladus: { name: "Enceladus", designation: "602", kind: "Natural Satellite" },
   tethys: { name: "Tethys", designation: "603", kind: "Natural Satellite" },
@@ -53,15 +53,15 @@ const MAJOR_BODIES: Record<string, { name: string; designation: string; kind: st
   rhea: { name: "Rhea", designation: "605", kind: "Natural Satellite" },
   titan: { name: "Titan", designation: "606", kind: "Natural Satellite" },
   iapetus: { name: "Iapetus", designation: "608", kind: "Natural Satellite" },
-  // Uranus moons
+  // Uranus moons //
   miranda: { name: "Miranda", designation: "705", kind: "Natural Satellite" },
   ariel: { name: "Ariel", designation: "701", kind: "Natural Satellite" },
   umbriel: { name: "Umbriel", designation: "702", kind: "Natural Satellite" },
   titania: { name: "Titania", designation: "703", kind: "Natural Satellite" },
   oberon: { name: "Oberon", designation: "704", kind: "Natural Satellite" },
-  // Neptune moons
+  // Neptune moons //
   triton: { name: "Triton", designation: "801", kind: "Natural Satellite" },
-  // Pluto moons
+  // Pluto moons //
   charon: { name: "Charon", designation: "901", kind: "Natural Satellite" },
 };
 
@@ -144,9 +144,9 @@ async function tryHorizons(q: string): Promise<NasaSightingsResponse> {
       return { applicable: false, reason: "not_a_solar_system_body" };
     }
 
-    // Try "Target body name: Mars (499)" — present in ephemeris-mode output
+    // Try "Target body name: Mars (499)": present in ephemeris-mode output //
     const headerMatch = result.match(/Target body name:\s*([^\n{]+)/);
-    // Fallback: "Mars (499)" anywhere in the result
+    // Fallback: "Mars (499)" anywhere in the result //
     const bodyMatch = result.match(/\b([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)?)\s*\((\d+)\)/);
 
     let name: string;
@@ -161,7 +161,7 @@ async function tryHorizons(q: string): Promise<NasaSightingsResponse> {
       name = bodyMatch[1].trim();
       designation = bodyMatch[2];
     } else {
-      // Result is non-error but unparseable — still report as applicable
+      // Result is non-error but unparseable: will still report as applicable //
       name = q;
       designation = q;
     }
@@ -183,11 +183,11 @@ export async function GET(request: Request) {
   const q = searchParams.get("q")?.trim();
   if (!q) return NextResponse.json({ error: "missing q" }, { status: 400 });
 
-  // 1. SBDB — authoritative for asteroids, comets, dwarf planets
+  // NASA SBDB: authoritative for asteroids, comets, dwarf planets //
   const sbdb = await trySBDB(q);
   if (sbdb.applicable) return NextResponse.json(sbdb);
 
-  // 2. Static table — major planets, moons, dwarf planets, Sun (no API call needed)
+  // Static table: major planets, moons, dwarf planets, Sun (no API call needed) //
   const staticHit = MAJOR_BODIES[q.toLowerCase()];
   if (staticHit) {
     return NextResponse.json({
@@ -199,7 +199,7 @@ export async function GET(request: Request) {
     } satisfies NasaSightingsResponse);
   }
 
-  // 3. Horizons — catches anything else (uncommon moons, barycenters, etc.)
+  // NASA Horizons: catches anything else (uncommon moons, barycenters, etc.) //
   const horizons = await tryHorizons(q);
   return NextResponse.json(horizons);
 }
