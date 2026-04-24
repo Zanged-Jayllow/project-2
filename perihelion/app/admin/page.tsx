@@ -21,7 +21,7 @@ export default async function AdminPage() {
   });
 
   return (
-    <main className="min-h-screen p-8" style={{ color: 'var(--app-heading)' }}>
+    <div style={{ color: 'var(--app-heading)' }}>
       <h1
         style={{
           fontFamily: "'EB Garamond', Georgia, serif",
@@ -106,6 +106,6 @@ export default async function AdminPage() {
           </tbody>
         </table>
       </section>
-    </main>
+    </div>
   );
 }

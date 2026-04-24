@@ -9,9 +9,14 @@ export function useObservations() {
     queryKey: OBSERVATIONS_QUERY_KEY,
     queryFn: async (): Promise<ObservationRow[]> => {
       const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) return [];
       const { data, error } = await supabase
         .from("observations")
         .select("*")
+        .eq("user_id", user.id)
         .order("observed_at", { ascending: false });
       if (error) throw error;
       return data as ObservationRow[];

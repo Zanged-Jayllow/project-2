@@ -1,10 +1,6 @@
-import { DeployButton } from "@/components/deploy-button";
-import { EnvVarWarning } from "@/components/env-var-warning";
-import { AuthButton } from "@/components/auth-button";
-import { ThemeSwitcher } from "@/components/theme-switcher";
-import { hasEnvVars } from "@/lib/utils";
+import { AppNavbar } from "@/components/app-navbar";
+import { AppFooter } from "@/components/app-footer";
 import Link from "next/link";
-import { Suspense } from "react";
 
 // ── inline type just for the static preview cards ──────────────────────────
 type Observation = {
@@ -61,36 +57,7 @@ export default function Home() {
   return (
     <main className="min-h-screen flex flex-col items-center">
       <div className="flex-1 w-full flex flex-col gap-20 items-center">
-        {/* ── NAV ──────────────────────────────────────────────── */}
-        <nav className="w-full flex justify-center border-b h-16 backdrop-blur-sm app-nav">
-          <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
-            <div className="flex gap-5 items-center">
-              <Link
-                href="/"
-                style={{
-                  fontFamily: "'EB Garamond', Georgia, serif",
-                  letterSpacing: "0.25em",
-                  fontSize: "1.05rem",
-                  color: "var(--app-logo)",
-                  textDecoration: "none",
-                  fontWeight: 500,
-                }}
-              >
-                ✦ PERIHELION
-              </Link>
-            </div>
-            <div className="flex items-center gap-4">
-              <ThemeSwitcher />
-              {!hasEnvVars ? (
-                <EnvVarWarning />
-              ) : (
-                <Suspense>
-                  <AuthButton />
-                </Suspense>
-              )}
-            </div>
-          </div>
-        </nav>
+        <AppNavbar showThemeSwitcher />
 
         {/* ── HERO ─────────────────────────────────────────────── */}
         <section className="w-full max-w-5xl px-5 flex flex-col gap-4">
@@ -578,32 +545,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── FOOTER ───────────────────────────────────────────── */}
-        <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16 app-footer">
-          <p>
-            Powered by{" "}
-            <a
-              href="https://supabase.com/"
-              target="_blank"
-              className="font-bold hover:underline"
-              rel="noreferrer"
-              style={{ color: "var(--app-footer-link)" }}
-            >
-              Supabase
-            </a>
-            {" "}and{" "}
-            <a
-              href="https://nextjs.org/"
-              target="_blank"
-              className="font-bold hover:underline"
-              rel="noreferrer"
-              style={{ color: "var(--app-footer-link)" }}
-            >
-              Next.JS
-            </a>
-          </p>
-          <ThemeSwitcher />
-        </footer>
+        <AppFooter />
       </div>
     </main>
   );

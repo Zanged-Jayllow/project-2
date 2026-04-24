@@ -2,7 +2,6 @@
 
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -37,57 +36,51 @@ export function LoginForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      {/* Header */}
       <div>
-        <div
-          style={{
-            display: "inline-block",
-            padding: "0.2rem 0.75rem",
-            border: "1px solid rgba(140,180,255,0.25)",
-            borderRadius: "2px",
-            fontSize: "0.7rem",
-            letterSpacing: "0.22em",
-            color: "#8ab4ff",
-            textTransform: "uppercase",
-            marginBottom: "0.75rem",
-          }}
-        >
-          Sky-Watcher's Journal
+        <div style={{
+          display: "inline-block",
+          padding: "0.2rem 0.75rem",
+          border: "1px solid var(--app-badge-border)",
+          borderRadius: "2px",
+          fontSize: "0.7rem",
+          letterSpacing: "0.22em",
+          color: "var(--app-badge)",
+          textTransform: "uppercase",
+          marginBottom: "0.75rem",
+        }}>
+          Sky-Watcher&apos;s Journal
         </div>
-        <h1
-          style={{
-            fontFamily: "'EB Garamond', Georgia, serif",
-            fontSize: "2rem",
-            fontWeight: 400,
-            color: "#dce8ff",
-            margin: "0 0 0.35rem",
-            lineHeight: 1.15,
-          }}
-        >
+        <h1 style={{
+          fontFamily: "'EB Garamond', Georgia, serif",
+          fontSize: "2rem",
+          fontWeight: 400,
+          color: "var(--app-heading)",
+          margin: "0 0 0.35rem",
+          lineHeight: 1.15,
+        }}>
           Welcome back
         </h1>
-        <p style={{ margin: 0, color: "#9aaccc", fontSize: "0.92rem" }}>
+        <p style={{ margin: 0, color: "var(--app-body)", fontSize: "0.92rem" }}>
           Enter your details to continue observing.
         </p>
       </div>
 
-      {/* Form card */}
-      <div
-        style={{
-          border: "1px solid rgba(140,180,255,0.15)",
-          borderRadius: "4px",
-          padding: "1.75rem",
-          background: "rgba(10,15,35,0.6)",
-          backdropFilter: "blur(8px)",
-        }}
-      >
+      <div style={{
+        border: "1px solid var(--app-card-border)",
+        borderRadius: "4px",
+        padding: "1.75rem",
+        background: "var(--app-card-bg)",
+        backdropFilter: "blur(8px)",
+      }}>
         <form onSubmit={handleLogin}>
           <div className="flex flex-col gap-5">
             <div className="flex flex-col gap-1.5">
-              <label
-                htmlFor="email"
-                style={{ fontSize: "0.75rem", letterSpacing: "0.12em", color: "#6a88bb", textTransform: "uppercase" }}
-              >
+              <label htmlFor="email" style={{
+                fontSize: "0.75rem",
+                letterSpacing: "0.12em",
+                color: "var(--app-label)",
+                textTransform: "uppercase",
+              }}>
                 Email
               </label>
               <Input
@@ -98,10 +91,10 @@ export function LoginForm({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(140,180,255,0.2)",
+                  background: "var(--app-input-bg)",
+                  border: "1px solid var(--app-input-border)",
                   borderRadius: "2px",
-                  color: "#e8e4da",
+                  color: "var(--app-input-color)",
                   fontSize: "0.9rem",
                 }}
               />
@@ -109,16 +102,20 @@ export function LoginForm({
 
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  style={{ fontSize: "0.75rem", letterSpacing: "0.12em", color: "#6a88bb", textTransform: "uppercase" }}
-                >
+                <label htmlFor="password" style={{
+                  fontSize: "0.75rem",
+                  letterSpacing: "0.12em",
+                  color: "var(--app-label)",
+                  textTransform: "uppercase",
+                }}>
                   Password
                 </label>
-                <Link
-                  href="/auth/forgot-password"
-                  style={{ fontSize: "0.75rem", color: "#4a7acc", textDecoration: "none", letterSpacing: "0.04em" }}
-                >
+                <Link href="/auth/forgot-password" style={{
+                  fontSize: "0.75rem",
+                  color: "var(--app-link)",
+                  textDecoration: "none",
+                  letterSpacing: "0.04em",
+                }}>
                   Forgot password?
                 </Link>
               </div>
@@ -129,10 +126,10 @@ export function LoginForm({
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(140,180,255,0.2)",
+                  background: "var(--app-input-bg)",
+                  border: "1px solid var(--app-input-border)",
                   borderRadius: "2px",
-                  color: "#e8e4da",
+                  color: "var(--app-input-color)",
                   fontSize: "0.9rem",
                 }}
               />
@@ -150,12 +147,10 @@ export function LoginForm({
                 alignItems: "center",
                 justifyContent: "center",
                 padding: "0.6rem 1.4rem",
-                background: isLoading
-                  ? "rgba(42,76,173,0.5)"
-                  : "linear-gradient(135deg, #2a4cad 0%, #1a2e6e 100%)",
-                border: "1px solid rgba(140,180,255,0.3)",
+                background: isLoading ? "rgba(42,76,173,0.5)" : "var(--app-btn-primary)",
+                border: "1px solid var(--app-btn-primary-border)",
                 borderRadius: "2px",
-                color: "#dce8ff",
+                color: "var(--app-btn-primary-text)",
                 fontSize: "0.88rem",
                 letterSpacing: "0.06em",
                 cursor: isLoading ? "not-allowed" : "pointer",
@@ -168,12 +163,13 @@ export function LoginForm({
         </form>
       </div>
 
-      <p style={{ textAlign: "center", fontSize: "0.82rem", color: "#4a6088" }}>
+      <p style={{ textAlign: "center", fontSize: "0.82rem", color: "var(--app-dim)" }}>
         Don&apos;t have an account?{" "}
-        <Link
-          href="/auth/sign-up"
-          style={{ color: "#4a7acc", textDecoration: "none", letterSpacing: "0.04em" }}
-        >
+        <Link href="/auth/sign-up" style={{
+          color: "var(--app-link)",
+          textDecoration: "none",
+          letterSpacing: "0.04em",
+        }}>
           Sign up
         </Link>
       </p>

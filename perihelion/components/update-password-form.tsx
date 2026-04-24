@@ -2,16 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -33,7 +24,6 @@ export function UpdatePasswordForm({
     try {
       const { error } = await supabase.auth.updateUser({ password });
       if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
       router.push("/protected/dashboard");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
@@ -44,35 +34,97 @@ export function UpdatePasswordForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">Reset Your Password</CardTitle>
-          <CardDescription>
-            Please enter your new password below.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleUpdatePassword}>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="password">New password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="New password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Saving..." : "Save new password"}
-              </Button>
+      <div>
+        <div style={{
+          display: "inline-block",
+          padding: "0.2rem 0.75rem",
+          border: "1px solid var(--app-badge-border)",
+          borderRadius: "2px",
+          fontSize: "0.7rem",
+          letterSpacing: "0.22em",
+          color: "var(--app-badge)",
+          textTransform: "uppercase",
+          marginBottom: "0.75rem",
+        }}>
+          Sky-Watcher&apos;s Journal
+        </div>
+        <h1 style={{
+          fontFamily: "'EB Garamond', Georgia, serif",
+          fontSize: "2rem",
+          fontWeight: 400,
+          color: "var(--app-heading)",
+          margin: "0 0 0.35rem",
+          lineHeight: 1.15,
+        }}>
+          New password
+        </h1>
+        <p style={{ margin: 0, color: "var(--app-body)", fontSize: "0.92rem" }}>
+          Please enter your new password below.
+        </p>
+      </div>
+
+      <div style={{
+        border: "1px solid var(--app-card-border)",
+        borderRadius: "4px",
+        padding: "1.75rem",
+        background: "var(--app-card-bg)",
+        backdropFilter: "blur(8px)",
+      }}>
+        <form onSubmit={handleUpdatePassword}>
+          <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="password" style={{
+                fontSize: "0.75rem",
+                letterSpacing: "0.12em",
+                color: "var(--app-label)",
+                textTransform: "uppercase",
+              }}>
+                New password
+              </label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="New password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{
+                  background: "var(--app-input-bg)",
+                  border: "1px solid var(--app-input-border)",
+                  borderRadius: "2px",
+                  color: "var(--app-input-color)",
+                  fontSize: "0.9rem",
+                }}
+              />
             </div>
-          </form>
-        </CardContent>
-      </Card>
+
+            {error && (
+              <p style={{ fontSize: "0.85rem", color: "#f87171", margin: 0 }}>{error}</p>
+            )}
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "0.6rem 1.4rem",
+                background: isLoading ? "rgba(42,76,173,0.5)" : "var(--app-btn-primary)",
+                border: "1px solid var(--app-btn-primary-border)",
+                borderRadius: "2px",
+                color: "var(--app-btn-primary-text)",
+                fontSize: "0.88rem",
+                letterSpacing: "0.06em",
+                cursor: isLoading ? "not-allowed" : "pointer",
+                transition: "opacity 0.15s",
+              }}
+            >
+              {isLoading ? "Saving…" : "Save new password →"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

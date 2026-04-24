@@ -99,9 +99,10 @@
   --app-input-color: #0a1a4a;
   --app-nav-bg: rgba(208, 222, 255, 0.7);
   --app-nav-border: rgba(42, 76, 173, 0.12);
-  --app-btn-primary: linear-gradient(135deg, #2a4cad 0%, #1a2e6e 100%);
-  --app-btn-primary-border: rgba(42, 76, 173, 0.35);
+  --app-btn-primary: linear-gradient(135deg, #4a6fd4 0%, #2a4cad 100%);
+  --app-btn-primary-border: rgba(42, 76, 173, 0.45);
   --app-btn-primary-text: #ffffff;
+  --app-btn-primary-hover: linear-gradient(135deg, #5a7fe4 0%, #3a5cbf 100%);
   --app-btn-outline-border: rgba(42, 76, 173, 0.3);
   --app-btn-outline-text: #2a4cad;
   --app-badge: #2a4cad;
@@ -187,6 +188,7 @@
   --app-btn-primary: linear-gradient(135deg, #2a4cad 0%, #1a2e6e 100%);
   --app-btn-primary-border: rgba(140, 180, 255, 0.3);
   --app-btn-primary-text: #dce8ff;
+  --app-btn-primary-hover: linear-gradient(135deg, #3a5cbf 0%, #2a4cad 100%);
   --app-btn-outline-border: rgba(140, 180, 255, 0.2);
   --app-btn-outline-text: #8ab4ff;
   --app-badge: #8ab4ff;

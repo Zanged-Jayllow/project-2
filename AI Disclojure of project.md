@@ -161,4 +161,22 @@ I used online tools for converting local time to ISO 8601 time code. I later not
 - **Prompt:** (Agent Mode) "i keep running into the following warning: [browser] The width(-1) and height(-1) of chart should be greater than 0, please check the style of container, or the props width(100%) and height(100%), or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the height and width. Identify the cause. Do not provide any code."
 - **Provided code:** Yes. The provided code is a 2-line snippet that contains the UI fix with NextJS SSR-specific DOM considerations.
 
+### 2026-04-24T21:10:00Z — student: Zanged-Jayllow
+
+- **Action:** Authentification bug fixes.
+- **Prompt:** (Agent Mode) "the observation logs are not protected according to roles, meaning a user can view any other user's log. identify the cause of the issue."
+- **Provided code:** Yes. Provided highlights of the code responsible for the error.
+
+### 2026-04-24T21:50:00Z — student: Zanged-Jayllow
+
+- **Action:** Replacing hard-coded CSS styles in Supabase template files with global variables.
+- **Prompt:** (Agent Mode) "update the sign up, forgot password, update password, log in form (and relevant pages) to have consistent theme with the rest of the pages (as already defined in the global css)"
+- **Provided code:** Yes. AI-Agent batch-processed the hard-coded CSS with the global variables.
+
+### 2026-04-24T21:50:00Z — student: Zanged-Jayllow
+
+- **Action:** Generating updated project description markdown files.
+- **Prompt:** (Agent Mode) "read the requirements in requirement.md, check whether the requirements are met, identify whether there is any significant bugs and update the README and PROJECT markdown files. Note that the public profile is left unfinished due to concerns with data safety and project scope, and that the project (especially the authentication code) is largely based on the official Supabase+NextJS template"
+- **Provided code:** Yes. AI-Agent batch-processed the relevant markdown files.
+
 ---
